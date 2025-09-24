@@ -2,7 +2,8 @@ EXCHANGE_RATES = {
     'IDR': 16500.0,
     'EUR': 0.85,
     'USD': 1.0,
-    'JPY': 147.87
+    'JPY': 147.87,
+    'MYR': 4.201
 }
 
 
@@ -16,6 +17,7 @@ def currency_converter(amount, source):
         converted_amount = convert_to_usd * rate
         print(f'- {converted_amount} {currency_code}')
 
+
 while True:
     try:
         amount = float(input('Enter the amount: '))
@@ -25,13 +27,13 @@ while True:
         continue
 
 while True:
-    source_currency = input(f'Source currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
+    source_currency = input(
+        f'Source currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
     if source_currency in EXCHANGE_RATES:
         break
     else:
         print('Invalid Input! Please chocie from the available currency')
 
 
-
 print(f'{amount} {source_currency} is equal to: ')
-currency_converter(amount,source_currency)
+currency_converter(amount, source_currency)
