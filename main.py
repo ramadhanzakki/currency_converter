@@ -6,34 +6,62 @@ EXCHANGE_RATES = {
     'MYR': 4.201
 }
 
+history_converter = []
+continue_user = True
 
-def currency_converter(amount, source):
+
+def currency_converter(amount, source, target):
     if source_currency not in EXCHANGE_RATES:
         return None
     convert_to_usd = amount / EXCHANGE_RATES[source]
-    for currency_code, rate in EXCHANGE_RATES.items():
-        if currency_code == source:
+    convert_usd_to_target_currency = convert_to_usd * EXCHANGE_RATES[target]
+    return convert_usd_to_target_currency
+
+
+while continue_user == True:
+    while True:
+        try:
+            amount = float(input('Enter the amount: '))
+            break
+        except:
+            print('Input just number!')
             continue
-        converted_amount = convert_to_usd * rate
-        print(f'- {converted_amount} {currency_code}')
+
+    while True:
+        source_currency = input(
+            f'Source currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
+        if source_currency in EXCHANGE_RATES:
+            break
+        else:
+            print('Invalid Input! Please chocie from the available currency')
+
+    while True:
+        target_currency = input(
+            f'Source currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
+        if target_currency in EXCHANGE_RATES:
+            break
+        else:
+            print('Invalid Input! Please chocie from the available currency')
 
 
-while True:
-    try:
-        amount = float(input('Enter the amount: '))
-        break
-    except:
-        print('Input just number!')
-        continue
+    print(f'{amount} {source_currency} is equal to: {currency_converter(amount,source_currency,target_currency)} {target_currency}')
 
-while True:
-    source_currency = input(
-        f'Source currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
-    if source_currency in EXCHANGE_RATES:
-        break
-    else:
-        print('Invalid Input! Please chocie from the available currency')
+    result_for_history = f'{amount} {source_currency} --> {currency_converter(amount, source_currency, target_currency)} {target_currency}'
+    history_converter.append(result_for_history)
+
+    while True:
+        user_continue = input('Convert another?(y/n): ').lower()
+        if user_continue == 'n':
+            continue_user = False
+            break
+        elif user_continue == 'y':
+            break
+        else:
+            print('Input invalid! Please enter y or n')
 
 
-print(f'{amount} {source_currency} is equal to: ')
-currency_converter(amount, source_currency)
+print('-- Converter History --')    
+for i, items in enumerate(history_converter):
+    print(f'{i + 1}. {items}')
+print('-----------------------')
+print('Thaks for using this converter')
