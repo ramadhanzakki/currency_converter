@@ -6,13 +6,15 @@ EXCHANGE_RATES = {
 }
 
 
-def currency_converter(amount, source, target):
-    if source_currency not in EXCHANGE_RATES or target_currency not in EXCHANGE_RATES:
+def currency_converter(amount, source):
+    if source_currency not in EXCHANGE_RATES:
         return None
     convert_to_usd = amount / EXCHANGE_RATES[source]
-    convert_usd_to_target = convert_to_usd * EXCHANGE_RATES[target]
-    return convert_usd_to_target
-
+    for currency_code, rate in EXCHANGE_RATES.items():
+        if currency_code == source:
+            continue
+        converted_amount = convert_to_usd * rate
+        print(f'- {converted_amount} {currency_code}')
 
 while True:
     try:
@@ -29,13 +31,7 @@ while True:
     else:
         print('Invalid Input! Please chocie from the available currency')
 
-while True:
-    target_currency = input(f'Target currency ({"/".join(EXCHANGE_RATES.keys())}): ').upper()
-    if source_currency in EXCHANGE_RATES:
-        break
-    else:
-        print('Invalid Input! Please chocie from the available currency')
 
-results_conveter = currency_converter(amount, source_currency, target_currency)
 
-print(f'{amount} {source_currency} is equal to {results_conveter} {target_currency}')
+print(f'{amount} {source_currency} is equal to: ')
+currency_converter(amount,source_currency)
